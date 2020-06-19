@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inmuebles.domain.PedidoDomain;
+import com.inmuebles.domain.UsuarioDomain;
 import com.inmuebles.exception.EntityNotFoundException;
 import com.inmuebles.model.PedidoModel;
+import com.inmuebles.model.UsuarioModel;
 import com.inmuebles.repository.PedidosRepository;
+import com.inmuebles.repository.UsuariosRepository;
 
 import io.micrometer.core.instrument.util.StringUtils;
 import ma.glasnost.orika.MapperFacade;
@@ -19,7 +22,10 @@ public class PedidosServiceImpl implements PedidosService {
 
 	@Autowired
 	PedidosRepository pedidosRepository;
-
+	
+	@Autowired
+	UsuariosRepository usuariosRepository;
+	
 	@Autowired
 	private MapperFacade mapperFacade;
 
@@ -27,6 +33,9 @@ public class PedidosServiceImpl implements PedidosService {
 	List<PedidoModel> pedidosModel = new ArrayList<PedidoModel>();
 	PedidoDomain pedidoDomain = new PedidoDomain();
 	List<PedidoDomain> pedidosDomain = new ArrayList<>();
+	
+	UsuarioModel usuarioModel = new UsuarioModel();
+
 
 	@Override
 	public String createPedido(PedidoDomain pedidoDomain) throws Exception {
@@ -65,6 +74,18 @@ public class PedidosServiceImpl implements PedidosService {
 		}
 		return allPedidosDomain;
 	}
+	
+	@Override
+	public List<UsuarioDomain> getAllUsuarios() throws Exception {
+		List<UsuarioModel> allUsuariosModel = new ArrayList<>();
+		List<UsuarioDomain> allUsuariosDomain = new ArrayList<>();
+		allUsuariosModel = usuariosRepository.findAll();
+
+		for (int i = 0; i < allUsuariosModel.size(); i++) {
+			allUsuariosDomain.add(mapperFacade.map(allUsuariosModel.get(i), UsuarioDomain.class));
+		}
+		return allUsuariosDomain;
+	}
 
 	@Override
 	public void deletePedido(String id) throws Exception {
@@ -93,6 +114,17 @@ public class PedidosServiceImpl implements PedidosService {
 		//} else {
 		//	throw new EntityNotFoundException("Los campos no pueden ir nulos o vacios.", "", "/pedidos/");
 		//}
+	}
+	
+	@Override
+	public UsuarioDomain updateUsuario(UsuarioDomain usuarioDomain, String id) throws Exception {
+				usuarioModel = mapperFacade.map(usuarioDomain, UsuarioModel.class);
+				usuarioModel.set_id(id);
+				usuarioDomain = mapperFacade.map(usuarioModel, UsuarioDomain.class);
+				System.out.println("Updating usuario with the id: " + id);
+				usuariosRepository.save(usuarioModel);
+				// return storyModel;
+				return usuarioDomain;
 	}
 
 	private boolean jsonValidation(String name, String cellphone, String ubication, String order) {

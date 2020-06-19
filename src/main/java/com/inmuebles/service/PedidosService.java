@@ -3,6 +3,7 @@ package com.inmuebles.service;
 import java.util.List;
 
 import com.inmuebles.domain.PedidoDomain;
+import com.inmuebles.domain.UsuarioDomain;
 
 public interface PedidosService {
 	
@@ -15,4 +16,8 @@ public interface PedidosService {
 	void deletePedido(String id) throws Exception;
 	
 	PedidoDomain updatePedido(PedidoDomain request, String id) throws Exception;
+
+	List<UsuarioDomain> getAllUsuarios() throws Exception;
+
+	UsuarioDomain updateUsuario(UsuarioDomain request, String id) throws Exception;
 }
