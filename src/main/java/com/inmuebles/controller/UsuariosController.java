@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.inmuebles.domain.PedidoDomain;
+import com.inmuebles.domain.InmuebleDomain;
 import com.inmuebles.domain.UsuarioDomain;
-import com.inmuebles.service.PedidosServiceImpl;
+import com.inmuebles.service.InmueblesServiceImpl;
 
 @RestController
 @RequestMapping(value = "/usuarios")
@@ -27,7 +27,7 @@ import com.inmuebles.service.PedidosServiceImpl;
 public class UsuariosController {
 	
 	@Autowired
-	PedidosServiceImpl pedidoService;
+	InmueblesServiceImpl pedidoService;
 	
 	//Get All users
 	@ResponseStatus(value = HttpStatus.OK)
@@ -38,10 +38,18 @@ public class UsuariosController {
 		return pedidoService.getAllUsuarios();
 	}
 	
+	//Get user by Id
+	@ResponseStatus(value = HttpStatus.OK)
+	@GetMapping(value = "/{id}", produces = "application/json")
+	@ResponseBody
+	public UsuarioDomain getUsuarioById(@Valid @PathVariable String id) throws Exception {
+		return pedidoService.getUsuarioById(id);
+	}
+	
 	//Update User
 	@ResponseStatus(value = HttpStatus.OK)
 	@PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public UsuarioDomain updateUsuario(@Valid @RequestBody UsuarioDomain request, @PathVariable String id) throws Exception {
 		return pedidoService.updateUsuario(request, id);
 	}

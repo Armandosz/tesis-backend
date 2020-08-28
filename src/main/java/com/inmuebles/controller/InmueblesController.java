@@ -10,57 +10,57 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.inmuebles.domain.PedidoDomain;
-import com.inmuebles.domain.PedidoDomainId;
-import com.inmuebles.service.PedidosServiceImpl;
+import com.inmuebles.domain.InmuebleDomain;
+import com.inmuebles.domain.InmuebleDomainId;
+import com.inmuebles.service.InmueblesServiceImpl;
 
 @RestController
 @RequestMapping(value = "/inventario")
 //@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 @CrossOrigin(origins = "*", maxAge = 3600)
-public class PedidosController {
+public class InmueblesController {
 
 	@Autowired
-	PedidosServiceImpl pedidoService;
+	InmueblesServiceImpl inmuebleService;
 	
-	//Get All items
+	//Get All inmuebles
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "/", produces = "application/json")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	@ResponseBody
-	public List<PedidoDomain> getAllPedidos() throws Exception {
-		return pedidoService.getAllPedidos();
+	public List<InmuebleDomain> getAllInmuebles() throws Exception {
+		return inmuebleService.getAllInmuebles();
 	}
 	
-	//Get pedido by Id
+	//Get inmueble by Id
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping(value = "/{id}", produces = "application/json")
 	@ResponseBody
-	public PedidoDomain getPedidoById(@Valid @PathVariable String id) throws Exception {
-		return pedidoService.getPedidoById(id);
+	public InmuebleDomain getInmuebleById(@Valid @PathVariable String id) throws Exception {
+		return inmuebleService.getInmuebleById(id);
 	}
 
-	//POST pedido
+	//POST inmueble
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@PostMapping(value = "/", consumes = "application/json", produces = "application/json")
 	@ResponseBody
-	public ResponseEntity<Object> createPedido(@Valid @RequestBody PedidoDomain request) throws Exception {
-		PedidoDomainId storyDomainId = new PedidoDomainId();
-		storyDomainId.setId(pedidoService.createPedido(request));
-		return new ResponseEntity<>(storyDomainId, HttpStatus.CREATED);
+	public ResponseEntity<Object> createInmueble(@Valid @RequestBody InmuebleDomain request) throws Exception {
+		InmuebleDomainId inmuebleDomainId = new InmuebleDomainId();
+		inmuebleDomainId.setId(inmuebleService.createInmueble(request));
+		return new ResponseEntity<>(inmuebleDomainId, HttpStatus.CREATED);
 	}
 	
-	//Update Pedido
+	//Update Inmueble
 	@ResponseStatus(value = HttpStatus.OK)
 	@PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
-	public PedidoDomain updatePedido(@Valid @RequestBody PedidoDomain request, @PathVariable String id) throws Exception {
-		return pedidoService.updatePedido(request, id);
+	public InmuebleDomain updateInmueble(@Valid @RequestBody InmuebleDomain request, @PathVariable String id) throws Exception {
+		return inmuebleService.updateInmueble(request, id);
 	}
 
-	//Delete pedido
+	//Delete Inmueble
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping(value = "/{id}")
-	public void deletePedido(@Valid @PathVariable String id) throws Exception {
-		pedidoService.deletePedido(id);
+	public void deleteInmueble(@Valid @PathVariable String id) throws Exception {
+		inmuebleService.deleteInmueble(id);
 	}
 }

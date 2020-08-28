@@ -3,9 +3,9 @@ package com.inmuebles.repository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import com.inmuebles.model.PedidoModel;
+import com.inmuebles.model.InmuebleModel;
 
 @Repository
-public interface PedidosRepository extends MongoRepository<PedidoModel, String> {
+public interface InmueblesRepository extends MongoRepository<InmuebleModel, String> {
 
 }

@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Document(collection = "inventario")
-public class PedidoModel {
+public class InmuebleModel {
 	@Id
 	private String _id;
 	/*Manejar numero como Id*/

@@ -3,7 +3,7 @@ package com.inmuebles.domain;
 import lombok.Data;
 
 @Data
-public class PedidoDomain {
+public class InmuebleDomain {
 
 	private String _id;
 	

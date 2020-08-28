@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PedidoDomainId {
+public class InmuebleDomainId {
 	private String Id;
 }
